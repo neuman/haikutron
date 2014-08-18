@@ -3,10 +3,7 @@ import json
 from random import randint
 
 
-    #if you want data...
-    #data = response.read()
-    #print data
-
+#how to generate a haiku:
 
 #start with an array of words
 #download info on each word including syllable count
@@ -14,12 +11,15 @@ from random import randint
 #randomly generate 3 strings of ints that add up to 5 7 5 using only ints that have an value in the dict
 #pick from the syllable sorted dict to fill in the randomly created template
 
+
+#summarized in haiku form:
+
 #Generate vocab,
 #sort by syllabic value,
 #select to fit form.
 
 
-class Words(object):
+class SomeWords(object):
     #start with an array of words
     initial = [
     "a","an","I","he","she","we","were","will","can","might","not","do","have","been","blazes","rage","destruction","life","animocity","smoke","gunshot","siren","sirens","epihony","hamburger","scientific", "religious", "butterfly","beach", "tranquil","sunshine"]
@@ -59,16 +59,14 @@ class Words(object):
         conn = httplib.HTTPConnection(host)
         conn.request("GET","/"+req)
         response = conn.getresponse()
-        #print response.status, response.reason
         return response.read()
 
     def write_line_with_this_many_syllables(self, syllable_count):
+        #pick from the syllable sorted dict to fill in the randomly created template
         sequence = self.get_syllabic_sequence(syllable_count)
         line = ""
         for s in sequence:
-            #line+=random.choice(self.syllables[s])+" "
             line+= random.choice(self.syllables[s])["word"]+" "
-        #print line
         return line
 
 
@@ -90,6 +88,7 @@ class Words(object):
         return sequence
 
     def write_haiku(self):
+        #randomly generate 3 strings of ints that add up to 5 7 5 using only ints that have an value in the dict
         output = ""
         output += words.write_line_with_this_many_syllables(5)+","
         output +=  words.write_line_with_this_many_syllables(7)+","
@@ -97,9 +96,8 @@ class Words(object):
         return output
 
 
+#the final execution is itself a haiku if read aloud
 
-
-words = Words()
-#words.syllables = syllables
-words.download_info()
+words = SomeWords()
+words.download_rhyme_info()
 words.write_haiku()
